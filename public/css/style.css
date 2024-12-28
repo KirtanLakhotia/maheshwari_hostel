@@ -1,0 +1,17 @@
+.navbar-brand{
+    margin-bottom: 1.5rem;
+    background-color: black !important;
+}
+.nav_bg{
+    /* background-color: rgb(214, 247, 247); */
+    background-color: black !important;
+}
+.nav_button{
+padding-right: 1rem;
+padding-left: 1rem;
+   font-size: 1.5rem;
+   background-color: black !important;
+}
+.body{
+    background-color: black;
+}
