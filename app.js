@@ -17,6 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // For parsing form data
 app.use(bodyParser.json()); // For parsing JSON data
 
 app.set('view engine','ejs') ;
+app.use(express.static("public"));
+
 // Configure session
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -50,6 +52,7 @@ passport.use(new GoogleStrategy({
           name: profile.displayName,
           photo: profile.photos[0].value,
           text_input: "NOTHING",
+          check1:false,
         });
 
         await user.save(); // Save to database
@@ -92,7 +95,7 @@ app.get('/auth/google/callback',
     // Access user data
     // res.send(`Welcome ${req.user.name}. Your email is ${req.user.email}`);
     let val=req.user.text_input ;
-    res.render("input",{input_text:val}) ;
+    res.render('input',{input_text:val,checkbox_state: req.user.check1,})
   });
   app.post('/input', async function(req,res){
     console.log(req.user) ;
@@ -100,5 +103,19 @@ app.get('/auth/google/callback',
     await User.updateOne({ googleId:req.user.googleId }, { $set: { text_input: req.body.input_text } });
     res.send("hello world") ;
   }) 
+
+  app.post('/save-checkbox-state', async (req, res) => {
+    let isChecked = req.body.remember_me1 === 'on'; // Checkbox value is 'on' when checked
+    // userState.isChecked = isChecked; // Save to your database
+    console.log(req.body.remember_me1) ;
+    await User.updateOne({ googleId:req.user.googleId }, { $set: { check1: isChecked } });
+    // await User.updateOne({ googleId:req.user.googleId }, { $set: { text_input: req.body.input_text } });
+    res.redirect('/'); // Redirect back to the form
+});
+
+
+  app.get('/',function(req,res){
+   res.render('home') ;
+  }) ;
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));

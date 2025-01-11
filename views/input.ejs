@@ -11,5 +11,15 @@
         <button type="submit" name="submit">submit</button>
         <h1><%=input_text%></h1>
     </form>
+
+
+    <form action="/save-checkbox-state" method="POST">
+        <label class="button-checkbox">
+            <input type="checkbox" name="remember_me1" id="rememberMe" 
+            <% if (checkbox_state) { %> checked <% } %> >
+            <span>Remember Me</span>
+        </label>
+        <button type="submit">Save</button>
+    </form>    
 </body>
 </html>
