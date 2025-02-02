@@ -105,7 +105,7 @@ app.get('/auth/google/callback',
   }) 
 
   app.post('/save-checkbox-state', async (req, res) => {
-    let isChecked = req.body.remember_me1 === 'on'; // Checkbox value is 'on' when checked
+    let isChecked = req.body.remember_me1 === 'on'; //  Checkbox value is 'on' when checked
     // userState.isChecked = isChecked; // Save to your database
     console.log(req.body.remember_me1) ;
     await User.updateOne({ googleId:req.user.googleId }, { $set: { check1: isChecked } });
